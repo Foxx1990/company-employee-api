@@ -21,11 +21,23 @@ class EmployeeController extends AbstractController
     }
 
     /**
-     * @Route("", methods={"POST"})
+     * @Route("", methods={"POST"}, name="create")
      */
     public function create(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        // Pobieranie danych z query parameters
+        $data = [
+            'firstName' => $request->query->get('firstName'),
+            'lastName' => $request->query->get('lastName'),
+            'email' => $request->query->get('email'),
+            'phoneNumber' => $request->query->get('phoneNumber'), // opcjonalny
+        ];
+
+        // Sprawdzenie, czy wszystkie wymagane parametry zostały podane
+        if (in_array(null, $data, true)) {
+            return $this->json(['error' => 'Missing required parameters'], 400);
+        }
+
         try {
             $employee = $this->employeeService->createEmployee($data);
             return $this->json($employee, 201);
@@ -35,7 +47,7 @@ class EmployeeController extends AbstractController
     }
 
     /**
-     * @Route("", methods={"GET"})
+     * @Route("", methods={"GET"}, name="index")
      */
     public function index(): JsonResponse
     {
@@ -44,7 +56,7 @@ class EmployeeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"})
+     * @Route("/{id}", methods={"GET"}, name="show")
      */
     public function show(int $id): JsonResponse
     {
@@ -56,11 +68,22 @@ class EmployeeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"PUT"})
+     * @Route("/{id}", methods={"PUT"}, name="update")
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = [
+            'firstName' => $request->query->get('firstName'),
+            'lastName' => $request->query->get('lastName'),
+            'email' => $request->query->get('email'),
+            'phoneNumber' => $request->query->get('phoneNumber'), // opcjonalny
+        ];
+
+        // Sprawdzenie, czy wszystkie wymagane parametry zostały podane
+        if (in_array(null, $data, true)) {
+            return $this->json(['error' => 'Missing required parameters'], 400);
+        }
+
         try {
             $employee = $this->employeeService->updateEmployee($id, $data);
             return $this->json($employee);
@@ -70,7 +93,7 @@ class EmployeeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"DELETE"})
+     * @Route("/{id}", methods={"DELETE"}, name="delete")
      */
     public function delete(int $id): JsonResponse
     {

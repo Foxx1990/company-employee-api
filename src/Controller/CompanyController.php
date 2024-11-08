@@ -21,11 +21,24 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("", methods={"POST"})
+      * @Route("api/companies", methods={"POST"}, name="create")
      */
     public function create(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        
+        // Pobieranie danych z query parameters
+        $data = [
+            'name' => $request->query->get('name'),
+            'nip' => $request->query->get('nip'),
+            'address' => $request->query->get('address'),
+            'city' => $request->query->get('city'),
+            'postalCode' => $request->query->get('postalCode'),
+        ];
+
+        // Sprawdzenie, czy wszystkie wymagane parametry zostały podane
+        if (in_array(null, $data, true)) {
+            return $this->json(['error' => 'Missing required parameters'], 400);
+        }
         try {
             $company = $this->companyService->createCompany($data);
             return $this->json($company, 201);
@@ -35,7 +48,7 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("", methods={"GET"})
+    * @Route("", methods={"GET"}, name="index")
      */
     public function index(): JsonResponse
     {
@@ -44,7 +57,7 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"})
+     * @Route("/{id}", methods={"GET"}, name="show")
      */
     public function show(int $id): JsonResponse
     {
@@ -56,11 +69,23 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"PUT"})
+     * @Route("/{id}", methods={"PUT"}, name="update")
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = [
+            'name' => $request->query->get('name'),
+            'nip' => $request->query->get('nip'),
+            'address' => $request->query->get('address'),
+            'city' => $request->query->get('city'),
+            'postalCode' => $request->query->get('postalCode'),
+        ];
+
+        // Sprawdzenie, czy wszystkie wymagane parametry zostały podane
+        if (in_array(null, $data, true)) {
+            return $this->json(['error' => 'Missing required parameters'], 400);
+        }
+
         try {
             $company = $this->companyService->updateCompany($id, $data);
             return $this->json($company);
@@ -70,7 +95,7 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"DELETE"})
+     * @Route("/{id}", methods={"DELETE"}, name="delete")
      */
     public function delete(int $id): JsonResponse
     {

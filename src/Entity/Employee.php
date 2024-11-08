@@ -1,87 +1,89 @@
 <?php
-// src/Entity/Employee.php
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\EmployeeRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\EmployeeRepository")
- */
+#[ORM\Entity(repositoryClass: EmployeeRepository::class)]
+#[ApiResource]
 class Employee
 {
-    // Identyfikator
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    // Imię
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     */
-    private string $firstName;
+    #[ORM\Column(length: 255)]
+    private ?string $firstName = null;
 
-    // Nazwisko
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     */
-    private string $lastName;
+    #[ORM\Column(length: 255)]
+    private ?string $lastName = null;
 
-    // Email
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank
-     * @Assert\Email
-     */
-    private string $email;
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
 
-    // Numer telefonu (opcjonalny)
-    /**
-     * @ORM\Column(type="string", length=20, nullable=true)
-     */
-    private ?string $phoneNumber;
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $phoneNumber = null;
 
-    // Gettery i Settery
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
-    public function getFirstName(): string
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
-    public function setFirstName(string $firstName): void
+
+    public function setFirstName(string $firstName): static
     {
         $this->firstName = $firstName;
+
+        return $this;
     }
-    public function getLastName(): string
+
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
-    public function setLastName(string $lastName): void
+
+    public function setLastName(string $lastName): static
     {
         $this->lastName = $lastName;
+
+        return $this;
     }
-    public function getEmail(): string
+
+    public function getEmail(): ?string
     {
         return $this->email;
     }
-    public function setEmail(string $email): void
+
+    public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
     }
+
     public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
-    public function setPhoneNumber(?string $phoneNumber): void
+
+    public function setPhoneNumber(?string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
     }
 }

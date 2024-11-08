@@ -2,100 +2,103 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\CompanyRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\CompanyRepository")
- */
+#[ORM\Entity(repositoryClass: CompanyRepository::class)]
+#[ApiResource]
 class Company
 {
-    // Identyfikator
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    // Nazwa
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     */
-    private string $name;
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
 
-    // NIP
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank
-     */
-    private string $nip;
+    #[ORM\Column(length: 255)]
+    private ?string $nip = null;
 
-    // Adres
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     */
-    private string $address;
+    #[ORM\Column(length: 255)]
+    private ?string $address = null;
 
-    // Miasto
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     */
-    private string $city;
+    #[ORM\Column(length: 255)]
+    private ?string $city = null;
 
-    // Kod pocztowy
-    /**
-     * @ORM\Column(type="string", length=10)
-     * @Assert\NotBlank
-     */
-    private string $postalCode;
+    #[ORM\Column(length: 255)]
+    private ?string $postalCode = null;
 
-    // Gettery i Settery
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
-    public function getName(): string
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    public function setName(string $name): void
+
+    public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
     }
-    public function getNip(): string
+
+    public function getNip(): ?string
     {
         return $this->nip;
     }
-    public function setNip(string $nip): void
+
+    public function setNip(string $nip): static
     {
         $this->nip = $nip;
+
+        return $this;
     }
-    public function getAddress(): string
+
+    public function getAddress(): ?string
     {
         return $this->address;
     }
-    public function setAddress(string $address): void
+
+    public function setAddress(string $address): static
     {
         $this->address = $address;
+
+        return $this;
     }
-    public function getCity(): string
+
+    public function getCity(): ?string
     {
         return $this->city;
     }
-    public function setCity(string $city): void
+
+    public function setCity(string $city): static
     {
         $this->city = $city;
+
+        return $this;
     }
-    public function getPostalCode(): string
+
+    public function getPostalCode(): ?string
     {
         return $this->postalCode;
     }
-    public function setPostalCode(string $postalCode): void
+
+    public function setPostalCode(string $postalCode): static
     {
         $this->postalCode = $postalCode;
+
+        return $this;
     }
 }

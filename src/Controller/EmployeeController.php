@@ -2,22 +2,22 @@
 
 namespace App\Controller;
 
-use App\Service\CompanyService;
+use App\Service\EmployeeService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/api/companies", name="company_")
+ * @Route("/api/employees", name="employee_")
  */
-class CompanyController extends AbstractController
+class EmployeeController extends AbstractController
 {
-    private CompanyService $companyService;
+    private EmployeeService $employeeService;
 
-    public function __construct(CompanyService $companyService)
+    public function __construct(EmployeeService $employeeService)
     {
-        $this->companyService = $companyService;
+        $this->employeeService = $employeeService;
     }
 
     /**
@@ -27,8 +27,8 @@ class CompanyController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         try {
-            $company = $this->companyService->createCompany($data);
-            return $this->json($company, 201);
+            $employee = $this->employeeService->createEmployee($data);
+            return $this->json($employee, 201);
         } catch (\Exception $e) {
             return $this->json(['error' => $e->getMessage()], 400);
         }
@@ -39,8 +39,8 @@ class CompanyController extends AbstractController
      */
     public function index(): JsonResponse
     {
-        $companies = $this->companyService->getAllCompanies();
-        return $this->json($companies);
+        $employees = $this->employeeService->getAllEmployees();
+        return $this->json($employees);
     }
 
     /**
@@ -48,11 +48,11 @@ class CompanyController extends AbstractController
      */
     public function show(int $id): JsonResponse
     {
-        $company = $this->companyService->getCompanyById($id);
-        if (!$company) {
-            return $this->json(['message' => 'Company not found'], 404);
+        $employee = $this->employeeService->getEmployeeById($id);
+        if (!$employee) {
+            return $this->json(['message' => 'Employee not found'], 404);
         }
-        return $this->json($company);
+        return $this->json($employee);
     }
 
     /**
@@ -62,8 +62,8 @@ class CompanyController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         try {
-            $company = $this->companyService->updateCompany($id, $data);
-            return $this->json($company);
+            $employee = $this->employeeService->updateEmployee($id, $data);
+            return $this->json($employee);
         } catch (\Exception $e) {
             return $this->json(['error' => $e->getMessage()], 400);
         }
@@ -75,8 +75,8 @@ class CompanyController extends AbstractController
     public function delete(int $id): JsonResponse
     {
         try {
-            $this->companyService->deleteCompany($id);
-            return $this->json(['message' => 'Company deleted']);
+            $this->employeeService->deleteEmployee($id);
+            return $this->json(['message' => 'Employee deleted']);
         } catch (\Exception $e) {
             return $this->json(['error' => $e->getMessage()], 400);
         }

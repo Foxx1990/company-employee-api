@@ -33,8 +33,7 @@ class EmployeeService
             throw new \Exception((string) $errors);
         }
 
-        $this->em->persist($employee);
-        $this->em->flush();
+        $this->employeeRepository->save($employee);
 
         return $employee;
     }
@@ -66,7 +65,7 @@ class EmployeeService
             throw new \Exception((string) $errors);
         }
 
-        $this->em->flush();
+        $this->employeeRepository->save($employee);
 
         return $employee;
     }
@@ -78,7 +77,6 @@ class EmployeeService
             throw new \Exception('Employee not found');
         }
 
-        $this->em->remove($employee);
-        $this->em->flush();
+        $this->employeeRepository->delete($employee);
     }
 }

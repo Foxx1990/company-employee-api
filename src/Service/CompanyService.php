@@ -34,8 +34,7 @@ class CompanyService
             throw new \Exception((string) $errors);
         }
 
-        $this->em->persist($company);
-        $this->em->flush();
+        $this->companyRepository->save($company);
 
         return $company;
     }
@@ -68,7 +67,7 @@ class CompanyService
             throw new \Exception((string) $errors);
         }
 
-        $this->em->flush();
+        $this->companyRepository->save($company);
 
         return $company;
     }
@@ -80,7 +79,6 @@ class CompanyService
             throw new \Exception('Company not found');
         }
 
-        $this->em->remove($company);
-        $this->em->flush();
+        $this->companyRepository->delete($company);
     }
 }

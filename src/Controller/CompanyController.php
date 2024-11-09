@@ -21,11 +21,11 @@ class CompanyController extends AbstractController
     }
 
     /**
-      * @Route("api/companies", methods={"POST"}, name="create")
+     * @Route("api/companies", methods={"POST"}, name="create")
      */
     public function create(Request $request): JsonResponse
     {
-        
+
         // Pobieranie danych z query parameters
         $data = [
             'name' => $request->query->get('name'),
@@ -48,7 +48,7 @@ class CompanyController extends AbstractController
     }
 
     /**
-    * @Route("", methods={"GET"}, name="index")
+     * @Route("", methods={"GET"}, name="index")
      */
     public function index(): JsonResponse
     {

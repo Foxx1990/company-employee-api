@@ -13,10 +13,9 @@ class CompanyService
     private EntityManagerInterface $em;
     private ValidatorInterface $validator;
 
-    public function __construct(CompanyRepository $companyRepository, EntityManagerInterface $em, ValidatorInterface $validator)
+    public function __construct(CompanyRepository $companyRepository,  ValidatorInterface $validator)
     {
         $this->companyRepository = $companyRepository;
-        $this->em = $em;
         $this->validator = $validator;
     }
 

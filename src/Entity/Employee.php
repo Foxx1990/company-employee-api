@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\EmployeeRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
 #[ApiResource]
@@ -38,6 +40,12 @@ class Employee
     #[ORM\ManyToOne(inversedBy: 'employees')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
     {
@@ -107,6 +115,33 @@ class Employee
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+    
+    #[ORM\PrePersist]
+    public function setCreatedAt(): self
+    {
+        $this->createdAt = new DateTimeImmutable('now');
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): self
+    {
+        $this->updatedAt =  new DateTimeImmutable('now');
 
         return $this;
     }

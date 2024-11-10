@@ -6,8 +6,10 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource]
@@ -17,7 +19,7 @@ class Company
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-   
+
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Company name is required.")]
     #[Assert\Length(max: 255)]
@@ -32,11 +34,11 @@ class Company
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Address is required.")]
     private ?string $address = null;
-   
+
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "City is required.")]
     private ?string $city = null;
-    
+
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Postal code is required.")]
     #[Assert\Regex("/^\d{2}-\d{3}$/", message: "Postal code must be in the format XX-XXX.")]
@@ -47,6 +49,12 @@ class Company
      */
     #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'company', orphanRemoval: true)]
     private Collection $employees;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -151,6 +159,33 @@ class Company
                 $employee->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAt(): self
+    {
+        $this->createdAt = new DateTimeImmutable('now');
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): self
+    {
+        $this->updatedAt = new DateTimeImmutable('now');
 
         return $this;
     }

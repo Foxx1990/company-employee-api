@@ -11,14 +11,12 @@ use App\Service\EntityValidator;
 class EmployeeService
 {
     private EmployeeRepository $employeeRepository;
-    private EntityManagerInterface $em;
     private ValidatorInterface $validator;
     private EntityValidator $entityValidator;
 
     public function __construct(EmployeeRepository $employeeRepository, EntityManagerInterface $em, ValidatorInterface $validator)
     {
         $this->employeeRepository = $employeeRepository;
-        $this->em = $em;
         $this->validator = $validator;
     }
 

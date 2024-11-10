@@ -15,7 +15,7 @@ class EmployeeService
     private ValidatorInterface $validator;
     private EntityValidator $entityValidator;
 
-    public function __construct(EmployeeRepository $employeeRepository, EntityManagerInterface $em, ValidatorInterface $validator, EntityValidator $entityValidator)
+    public function __construct(EmployeeRepository $employeeRepository, EntityManagerInterface $em, ValidatorInterface $validator)
     {
         $this->employeeRepository = $employeeRepository;
         $this->em = $em;

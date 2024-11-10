@@ -15,24 +15,24 @@ class Employee
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "First name is required.")]
     #[Assert\Length(max: 100)]
-    #[ORM\Column(length: 255)]
     private ?string $firstName = null;
-
+    
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Last name is required.")]
     #[Assert\Length(max: 100)]
-    #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Email is required.")]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
-    #[ORM\Column(length: 255)]
     private ?string $email = null;
-
-    #[Assert\Regex("/^\+?[0-9\s\-]{7,20}$/", message: "Phone number must contain only digits, spaces, or hyphens.")]
+    
     #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Regex("/^\+?[0-9\s\-]{7,20}$/", message: "Phone number must contain only digits, spaces, or hyphens.")]
     private ?string $phoneNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'employees')]

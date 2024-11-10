@@ -17,30 +17,29 @@ class Company
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+   
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Company name is required.")]
     #[Assert\Length(max: 255)]
-    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 10)]
     #[Assert\NotBlank(message: "NIP is required.")]
     #[Assert\Length(min: 10, max: 10, exactMessage: "NIP must be exactly 10 characters long.")]
     #[Assert\Regex("/^\d{10}$/", message: "NIP must contain only 10 digits.")]
-    #[ORM\Column(length: 255)]
     private ?string $nip = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: "Address is required.")]
     private ?string $address = null;
-
-    #[Assert\NotBlank(message: "City is required.")]
+   
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "City is required.")]
     private ?string $city = null;
-
+    
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Postal code is required.")]
     #[Assert\Regex("/^\d{2}-\d{3}$/", message: "Postal code must be in the format XX-XXX.")]
-    #[ORM\Column(length: 255)]
     private ?string $postalCode = null;
 
     /**

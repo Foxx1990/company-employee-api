@@ -25,15 +25,7 @@ class CompanyController extends AbstractController
      */
     public function create(Request $request): JsonResponse
     {
-
-        // Pobieranie danych z query parameters
-        $data = [
-            'name' => $request->query->get('name'),
-            'nip' => $request->query->get('nip'),
-            'address' => $request->query->get('address'),
-            'city' => $request->query->get('city'),
-            'postalCode' => $request->query->get('postalCode'),
-        ];
+        $data = json_decode($request->getContent(), true);
 
         // Sprawdzenie, czy wszystkie wymagane parametry zostały podane
         if (in_array(null, $data, true)) {

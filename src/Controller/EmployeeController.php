@@ -25,13 +25,7 @@ class EmployeeController extends AbstractController
      */
     public function create(Request $request): JsonResponse
     {
-        // Pobieranie danych z query parameters
-        $data = [
-            'firstName' => $request->query->get('firstName'),
-            'lastName' => $request->query->get('lastName'),
-            'email' => $request->query->get('email'),
-            'phoneNumber' => $request->query->get('phoneNumber'), // opcjonalny
-        ];
+        $data = json_decode($request->getContent(), true);
 
         // Sprawdzenie, czy wszystkie wymagane parametry zostały podane
         if (in_array(null, $data, true)) {

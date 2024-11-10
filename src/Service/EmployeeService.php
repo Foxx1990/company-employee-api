@@ -6,14 +6,16 @@ use App\Entity\Employee;
 use App\Repository\EmployeeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Service\EntityValidator;
 
 class EmployeeService
 {
     private EmployeeRepository $employeeRepository;
     private EntityManagerInterface $em;
     private ValidatorInterface $validator;
+    private EntityValidator $entityValidator;
 
-    public function __construct(EmployeeRepository $employeeRepository, EntityManagerInterface $em, ValidatorInterface $validator)
+    public function __construct(EmployeeRepository $employeeRepository, EntityManagerInterface $em, ValidatorInterface $validator, EntityValidator $entityValidator)
     {
         $this->employeeRepository = $employeeRepository;
         $this->em = $em;
@@ -29,10 +31,7 @@ class EmployeeService
         $employee->setPhoneNumber($data['phoneNumber'] ?? null);
         $employee->setCompany($data['$company']);
 
-        $errors = $this->validator->validate($employee);
-        if (count($errors) > 0) {
-            throw new \Exception((string) $errors);
-        }
+        $this->entityValidator->validate($employee);
 
         $this->employeeRepository->save($employee);
 

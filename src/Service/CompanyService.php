@@ -6,17 +6,19 @@ use App\Entity\Company;
 use App\Repository\CompanyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Service\EntityValidator;
 
 class CompanyService
 {
     private CompanyRepository $companyRepository;
-    private EntityManagerInterface $em;
+    private EntityValidator $entityValidator;
     private ValidatorInterface $validator;
 
-    public function __construct(CompanyRepository $companyRepository,  ValidatorInterface $validator)
+
+    public function __construct(CompanyRepository $companyRepository,  ValidatorInterface $validator, EntityValidator $entityValidator)
     {
         $this->companyRepository = $companyRepository;
-        $this->validator = $validator;
+        $this->entityValidator = $entityValidator;
     }
 
     public function createCompany(array $data): Company
@@ -29,10 +31,8 @@ class CompanyService
         $company->setPostalCode($data['postalCode']);
         $company->addEmployee($data['employee']);
 
-        $errors = $this->validator->validate($company);
-        if (count($errors) > 0) {
-            throw new \Exception((string) $errors);
-        }
+        
+        $this->entityValidator->validate($company);
 
         $this->companyRepository->save($company);
 

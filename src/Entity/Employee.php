@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\EmployeeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
 #[ApiResource]
@@ -15,15 +16,22 @@ class Employee
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: "First name is required.")]
+    #[Assert\Length(max: 100)]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
+    #[Assert\NotBlank(message: "Last name is required.")]
+    #[Assert\Length(max: 100)]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[Assert\NotBlank(message: "Email is required.")]
+    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[Assert\Regex("/^\+?[0-9\s\-]{7,20}$/", message: "Phone number must contain only digits, spaces, or hyphens.")]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phoneNumber = null;
 

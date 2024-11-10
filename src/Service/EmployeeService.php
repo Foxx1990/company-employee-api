@@ -27,6 +27,7 @@ class EmployeeService
         $employee->setLastName($data['lastName']);
         $employee->setEmail($data['email']);
         $employee->setPhoneNumber($data['phoneNumber'] ?? null);
+        $employee->setCompany($data['$company']);
 
         $errors = $this->validator->validate($employee);
         if (count($errors) > 0) {

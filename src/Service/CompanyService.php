@@ -27,6 +27,7 @@ class CompanyService
         $company->setAddress($data['address']);
         $company->setCity($data['city']);
         $company->setPostalCode($data['postalCode']);
+        $company->addEmployee($data['employee']);
 
         $errors = $this->validator->validate($company);
         if (count($errors) > 0) {
